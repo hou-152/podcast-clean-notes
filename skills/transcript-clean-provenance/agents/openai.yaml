@@ -1,0 +1,4 @@
+interface:
+  display_name: "transcript-clean-provenance"
+  short_description: "把 ASR 粗转写洗成干净的直播转写，附完整溯源件（校订表/修订记录/存疑与待对清单）"
+  default_prompt: "使用 $transcript-clean-provenance 完成它所解决的任务，并按可观察标准检查结果。"

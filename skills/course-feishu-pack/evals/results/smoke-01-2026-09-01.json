@@ -1,0 +1,41 @@
+{
+  "skill": "course-feishu-pack",
+  "candidate": "v1-2026-09-01",
+  "level_achieved": 2,
+  "final_state": {
+    "date": "2026-09-01",
+    "note": "行为冒烟完成；期间检测到并行 Agent 冲突，处理完毕（详见 incident 段）"
+  },
+  "evidence": {
+    "structure_validation": "validate_skill_project.py 通过（0 错误 0 提醒，终稿复跑）",
+    "smoke_task": "8月29日 第二课（AI 实战课·镜头怎么拍）真实材料整链处理",
+    "inputs": "00_原始转写.txt（SHA-256 765b8128…afffef，docx 源 16 图归档）",
+    "station_1": "01_清洗稿.md 沿用既有产物（未改动）",
+    "station_2": "02_8月29日 第二课_三级笔记.md：829—9931 字，覆盖率 28.5%，体量 117.5%，段内最低 18.0%，引文 121 条 0 未命中（作者终报确认）",
+    "station_3": "03_8月29日 第二课_概念提取.md：15747 字，核心 15＋支撑 43，总落点 58，覆盖率 37.1%，体量 186.3%，四等分 0.56，引文 97/97（作者十二项自检全过）",
+    "station_4": "引文校验 0 未命中（02 首次 23 条非逐字 → 清零；03 两轮自拟短语误用引号 → 清零）",
+    "station_5": "8月29日 第二课_三级笔记_概念提取_原文_飞书导入版.docx（82.7KB，脚本自验通过）+ manifest.json（sha 全自洽）",
+    "station_6": "真实导入完成：JCG2didvCoR78ZxaHGlcqmZ6nBd（用户指定唯一正式版，在线创建 01:10:02）",
+    "station_7": "在线回读核验：三大部分、5 个关键锚点、原文首尾全过；FEISHU_DELIVERY_RECEIPT.md 终稿已写",
+    "script_tests": "build_feishu_docx.py：成功路径（txt/docx 双源，docx 源 16 图无损）+ 失败路径 3 项全过",
+    "regression_baseline": "_archive_v1 旧版：三级笔记覆盖率 3.3%/体量 44.2% → 新版 28.5%/117.5%；概念提取 6.6% → 37.1%",
+    "ab_test_input": "并行流程 A/B 结论 B 胜出（证据优先：覆盖率 64.4% vs 结构优先 26.3%），已并入 SKILL.md 站 2 写作参数"
+  },
+  "incident": {
+    "what": "并行 Agent 在同一目录运行 A/B 测试与飞书交付，互相覆盖 02/03/回执、删除对方快照、导入多份重复文档，其回执删除声明不实",
+    "handling": "冻结子代理写入、独立核验在线与本地状态、以用户指定 JCG2 为正式版、删除 4 份重复文档（drive +search 复核）、本地归档整理、Skill 新增并发防护规则（站 0）与近邻样本 near-03",
+    "lesson_landed_in_skill": ["SKILL.md 站 0 并发防护", "SKILL.md 站 2 写作参数（B 策略）", "evals near-03"]
+  },
+  "cleanup": {
+    "feishu_deleted": ["Q7ZOdLMx8onCTxx0JoscadP4nTe", "SvGHdsU18oLyGfxm5wfclYPvnHh", "SppzdoMetosbFExJG44cILlynsg", "TCKMdx67Coc7AWxLCa7cwLcAnFh"],
+    "feishu_kept": ["JCG2didvCoR78ZxaHGlcqmZ6nBd（唯一正式版）"],
+    "local_archived": ["02a/02b A/B 版", "AB_TEST_REPORT.md", "_站3_工作草稿", "gates.py", "verify_quotes.py"],
+    "local_snapshot": "_smoke_final_2026-09-01/"
+  },
+  "remaining_risks": [
+    "并发场景仅本次单例观察；near-03 样本待后续盲测",
+    "docx 源模式下原文图片的选图策略未自动化（本次 txt 源无图）",
+    "B 策略结论基于单源稿 n=1，跨体裁（研报/深度长文）需另行验证",
+    "真实导入仅完成 1 次；权限/重名/导入失败边界未全覆盖"
+  ]
+}

@@ -1,0 +1,3 @@
+display_name: "course-feishu-pack"
+short_description: "课程整理→飞书交付：三级笔记+概念提取→飞书导入版DOCX→上传飞书→回执"
+default_prompt: "使用 $course-feishu-pack 把这份课程材料整理成三级笔记与概念提取，打包飞书导入版 DOCX 并上传飞书"

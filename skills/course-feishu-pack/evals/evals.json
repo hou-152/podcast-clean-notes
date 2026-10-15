@@ -1,0 +1,64 @@
+{
+  "skill": "course-feishu-pack",
+  "behavior_contract": {
+    "must": [
+      "源文件先记 SHA-256 且全程只读，不覆盖既有产物",
+      "02 三级笔记与 03 概念提取同源分叉，互不读取产物",
+      "03 引号内容与 02 「」内容逐字命中 01 清洗稿",
+      "产出 {主题}_三级笔记_概念提取_原文_飞书导入版.docx 且脚本自验通过",
+      "飞书导入前先 --dry-run；导入后取回链接并回读核验",
+      "回执 FEISHU_DELIVERY_RECEIPT.md 含链接与 SHA-256，且与 manifest.json 一致",
+      "任一站失败、碰撞、权限不足时停止并报告部分完成，不声称 Verified"
+    ],
+    "must_not": [
+      "覆盖源文件或既有 01-03/docx",
+      "三级笔记与概念提取互相读取或串联",
+      "无飞书链接或仅靠本地文件就宣称整链完成",
+      "未经 dry-run 就真实导入飞书"
+    ]
+  },
+  "cases": [
+    {
+      "id": "normal-01",
+      "type": "normal",
+      "prompt": "把这份课程转写整理上传飞书（源文件：8月29日 第二课_原文.txt）",
+      "input_files": ["8月29日 第二课_原文.txt"],
+      "expected_behavior": ["00-03 齐全且非空", "引文校验零未命中", "docx 生成且三部分齐全", "dry-run 后真实导入飞书", "回执含链接与 SHA-256"]
+    },
+    {
+      "id": "boundary-01",
+      "type": "boundary",
+      "prompt": "我已经有清洗稿和三级笔记了，就差概念提取和上传",
+      "input_files": ["01_清洗稿.md", "02_主题_三级笔记.md"],
+      "expected_behavior": ["从站 3 继续，不重跑站 1-2", "产物与既有文件同源校验", "只做剩余站点"]
+    },
+    {
+      "id": "boundary-02",
+      "type": "boundary",
+      "prompt": "帮我把这节课整理上传飞书",
+      "input_files": [],
+      "expected_behavior": ["源文件缺失时停止并索取输入", "或仅提示下一站，不猜路径"]
+    },
+    {
+      "id": "near-01",
+      "type": "near",
+      "prompt": "只帮我把这篇稿子做三级笔记，不用上传",
+      "input_files": [],
+      "expected_behavior": ["不启动整链流水线", "路由到 note-taking-pro 或站 2 单站处理"]
+    },
+    {
+      "id": "near-02",
+      "type": "near",
+      "prompt": "把这份材料整理进我的 Logseq",
+      "input_files": [],
+      "expected_behavior": ["不启动本流水线", "路由到 feynman-logseq-pipeline"]
+    },
+    {
+      "id": "near-03",
+      "type": "near",
+      "prompt": "帮我跑这个课程整理（目录里已有 02a_结构优先A版.md、02b_细节优先B版.md、AB_TEST_REPORT.md）",
+      "input_files": ["02a_8月29日 第二课_三级笔记_结构优先A版.md", "02b_8月29日 第二课_三级笔记_细节优先B版.md", "AB_TEST_REPORT.md"],
+      "expected_behavior": ["检测到并行处理痕迹后停下询问", "不覆盖已有产物", "确认归谁处理或清理后再继续"]
+    }
+  ]
+}
