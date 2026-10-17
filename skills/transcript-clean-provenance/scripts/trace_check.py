@@ -26,7 +26,8 @@ from collections import Counter
 
 ROLE = re.compile(r"^[A-Za-z0-9\u4e00-\u9fff]{1,6}[：:]")
 PUNCT = re.compile(r"[\s，。！？、；：「」『』（）()《》【】—…·,.!?;:\"'“”‘’\-—~～*#>|]+")
-TOOL = re.compile(r"^发言人\s*\d*\s+\d{1,2}:\d{2}")
+# 工具行：整行是「发言人N 00:00」或纯时间戳（字幕转换产物）
+TOOL = re.compile(r"^(?:发言人\s*\d*\s+)?\d{1,2}:\d{2}(?::\d{2})?\s*$")
 
 
 def read_text_file(path):

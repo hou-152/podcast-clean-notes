@@ -12,8 +12,9 @@ import re
 import sys
 
 SHA = re.compile(r"[0-9a-f]{64}")
-TS_HEADER = re.compile(r"^发言人\s*\d+\s+\d{1,2}:\d{2}(:\d{2})?\s*$", re.M)
-TS_ANY = re.compile(r"\d{1,2}:\d{2}(:\d{2})?")  # 用于警告提示
+# 工具行：整行是「发言人N 00:00」或纯时间戳「00:00 / 00:00:00」（字幕转换产物）
+TS_HEADER = re.compile(r"^(?:发言人\s*\d*\s+)?\d{1,2}:\d{2}(?::\d{2})?\s*$", re.M)
+TS_ANY = re.compile(r"\d{1,2}:\d{2}(?::\d{2})?")  # 用于警告提示
 
 
 def find_attachment(clean_file, kind):
